@@ -9,24 +9,9 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import SWXMLHash
-let greenCG = CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1)
-let greenColor = UIColor(cgColor: greenCG)
-
-//버튼에 함수 확장
-extension UIButton {
-    func addBottomBorderWithColor(color: UIColor, width: CGFloat) {
-       let border = CALayer()
-        border.backgroundColor = greenColor.cgColor
-       border.frame = CGRect(x:0 + 10, y:self.frame.size.height - width, width:self.frame.size.width - 20, height:width)
-       self.layer.addSublayer(border)
-   }
-}
-
-
-
-
 
 class SortTableViewController: UITableViewController, UISearchResultsUpdating,UISearchBarDelegate{
+    
     var searchController = UISearchController(searchResultsController: nil)
     var nowTitle  = ""
     var plantArrayIndex = 0
@@ -40,7 +25,7 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
         findArray()
         setUI()
 
-        self.view.backgroundColor = greenColor
+        self.view.backgroundColor = .easyPlantPrimary
    
     }
 
@@ -94,17 +79,17 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
        
 
         searchController.searchBar.layer.borderWidth = 0
-        searchController.searchBar.tintColor = greenColor
-        searchController.searchBar.backgroundColor = greenColor
-        searchController.searchBar.layer.backgroundColor = greenColor.cgColor
-        searchController.searchBar.barTintColor = greenColor
+        searchController.searchBar.tintColor = .easyPlantPrimary
+        searchController.searchBar.backgroundColor = .easyPlantPrimary
+        searchController.searchBar.layer.backgroundColor = UIColor.easyPlantPrimary.cgColor
+        searchController.searchBar.barTintColor = .easyPlantPrimary
         
         searchController.searchBar.searchBarStyle = .minimal
     
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+//        searchController.dimsBackgroundDuringPresentation = false <- deprecrated됨
         self.definesPresentationContext = true
  
 
@@ -161,10 +146,7 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
            
     }
 
-    //그룹이라고 생각하면됨
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        //이거 초기값은0 인데 1로 변경해줘야함
         return 1
     }
     
@@ -172,24 +154,22 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
         return 220
     }
 
-        //색션에 몇개의 셀이 있는가
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return resultPlantArray.count%2==0 ? resultPlantArray.count/2 : resultPlantArray.count/2+1
+        return resultPlantArray.count % 2 == 0 ? resultPlantArray.count / 2 : resultPlantArray.count / 2 + 1
     }
 
     
     //인덱스 패스에 어떤 셀로 화면 상에 출력 되는지
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: CellTableViewCell = tableView.dequeueReusableCell(withIdentifier: "plantCell", for: indexPath) as! CellTableViewCell
+        
         //셀 디자인 설정
         cell.layer.borderWidth = 0
-        cell.layer.backgroundColor = greenCG
+        cell.layer.backgroundColor = UIColor.easyPlantPrimary.cgColor
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-       // cell.contView.addGestureRecognizer(gesture)
-
-        
+      
         
         //segment 값에따라 데이터 정렬
         var plants: [Plant] = []
@@ -272,14 +252,10 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
      
     func removeShadow(_ cell: CellTableViewCell, _ dir : String){
         if dir == "right"{
-            cell.rightCellView.layer.shadowOpacity = 0
-            cell.rightCellView.layer.shadowOffset = CGSize(width: 0, height: 0)
-            cell.rightCellView.layer.shadowRadius = 0
+            setShadowView(view: cell.rightCellView, opacity: 0.0, height: 0, shadowRadius: 0)
         }
         else{
-            cell.leftCellView.layer.shadowOpacity = 0
-            cell.leftCellView.layer.shadowOffset = CGSize(width: 0, height: 0)
-            cell.leftCellView.layer.shadowRadius = 0
+            setShadowView(view: cell.leftCellView, opacity: 0.0, height: 0, shadowRadius: 0)
         }
     }
     
@@ -288,23 +264,20 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
         
         cell.rightCellView.backgroundColor = UIColor.white
         cell.rightButton.backgroundColor = UIColor.white
-        cell.rightCellView.layer.shadowOpacity = 0.2
-        cell.rightCellView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        cell.rightCellView.layer.shadowRadius = 5
-        cell.rightCellView.layer.masksToBounds = false
+        setShadowView(view: cell.rightCellView, height: 3, shadowRadius: 5)
     }
     
     func greenRightUIUpdate(_ cell : CellTableViewCell) {
         cell.rightImageButton?.setImage(UIImage(), for: .normal)
         cell.rightImageButton?.layer.borderWidth = 0
         cell.rightButton?.setTitle(nil, for: .normal)
-        cell.rightImageButton?.setTitleColor(greenColor, for: .normal)
+        cell.rightImageButton?.setTitleColor(UIColor.easyPlantPrimary, for: .normal)
 
-        cell.rightImageButton?.layer.borderColor = greenCG
+        cell.rightImageButton?.layer.borderColor = UIColor.easyPlantPrimary.cgColor
 
         
-        cell.rightCellView.backgroundColor = greenColor
-        cell.rightButton.backgroundColor = greenColor
+        cell.rightCellView.backgroundColor = UIColor.easyPlantPrimary
+        cell.rightButton.backgroundColor = UIColor.easyPlantPrimary
         
         //각 버튼을 눌렀을 시 호출할 함수 설정
         cell.rightButton?.removeTarget(self, action: #selector(SortTableViewController.rightButtonTapped(_:)), for: UIControl.Event.touchUpInside)
@@ -312,24 +285,20 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
     }
     
     func whiteLeftUIUpdate(_ cell: CellTableViewCell){
-        
         cell.leftCellView.backgroundColor = UIColor.white
         cell.leftButton.backgroundColor = UIColor.white
-        cell.leftCellView.layer.shadowOpacity = 0.2
-        cell.leftCellView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        cell.leftCellView.layer.shadowRadius = 5
-        cell.leftCellView.layer.masksToBounds = false
+        setShadowView(view: cell.leftCellView, height: 3, shadowRadius: 5)
     }
     
     func greenLeftUIUpdate(_ cell : CellTableViewCell) {
         cell.leftImageButton?.setImage(UIImage(), for: .normal)
         cell.leftButton?.setTitle(nil, for: .normal)
         cell.leftImageButton?.layer.borderWidth = 0
-        cell.leftImageButton?.layer.borderColor = greenCG
-        cell.leftImageButton?.setTitleColor(greenColor, for: .normal)
+        cell.leftImageButton?.layer.borderColor = UIColor.easyPlantPrimary.cgColor
+        cell.leftImageButton?.setTitleColor(UIColor.easyPlantPrimary, for: .normal)
 
-        cell.leftCellView.backgroundColor = greenColor
-        cell.leftButton.backgroundColor = greenColor
+        cell.leftCellView.backgroundColor = UIColor.easyPlantPrimary
+        cell.leftButton.backgroundColor = UIColor.easyPlantPrimary
         
         //각 버튼을 눌렀을 시 호출할 함수 설정
         cell.leftButton?.removeTarget(self, action: #selector(SortTableViewController.rightButtonTapped(_:)), for: UIControl.Event.touchUpInside)
@@ -358,19 +327,3 @@ class SortTableViewController: UITableViewController, UISearchResultsUpdating,UI
     }
 }
 
-
-//확장
-
-extension UIImageView {
-    func downloadImageFrom(_ link:String, contentMode: UIView.ContentMode) {
-        URLSession.shared.dataTask( with: URL(string:link)!, completionHandler: {
-            (data, response, error) -> Void in
-            DispatchQueue.main.async {
-                self.contentMode =  contentMode
-                if let data = data {
-                    self.image = UIImage(data: data) }
-            }
-        }).resume()
-    }
-
-}

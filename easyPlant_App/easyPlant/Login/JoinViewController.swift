@@ -70,21 +70,21 @@ class JoinViewController: UIViewController,UITextViewDelegate {
             return
         }
         
+    
         Auth.auth().createUser(withEmail: IDField.text!, password: pwField.text!) {
             (user, error) in
             
             if error != nil {
-                if let errorNo = AuthErrorCode(rawValue: (error?._code)!) {
-                    switch errorNo {
-                    case AuthErrorCode.invalidEmail:
-                        self.showAlert(message: "유효하지 않은 이메일 입니다")
-                    case AuthErrorCode.emailAlreadyInUse:
-                        self.showAlert(message: "이미 가입된 아이디입니다.")
-                    case AuthErrorCode.weakPassword:
-                        self.showAlert(message: "6자리 이상의 비밀번호를 입력해주세요")
-                    default:
-                        print(errorNo)
-                    }
+                guard let err = error as? NSError else { return }
+                switch err.code {
+                case AuthErrorCode.invalidEmail.rawValue:
+                    self.showAlert(message: "유효하지 않은 이메일 입니다")
+                case AuthErrorCode.emailAlreadyInUse.rawValue:
+                    self.showAlert(message: "이미 가입된 아이디입니다.")
+                case AuthErrorCode.weakPassword.rawValue:
+                    self.showAlert(message: "6자리 이상의 비밀번호를 입력해주세요")
+                default:
+                    print(err)
                 }
             } else {
                 if user != nil {

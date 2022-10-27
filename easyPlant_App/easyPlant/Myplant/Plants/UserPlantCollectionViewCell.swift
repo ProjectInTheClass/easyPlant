@@ -11,10 +11,14 @@ class UserPlantCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-
+    @IBOutlet weak var cellBackgroundView: UIView!
+    
     func update(info: UserPlant) {
         downloadUserPlantImage(imgview: imageView, title: "\(info.plantImage)")
         nameLabel.text = ""+info.name
+        imageView.layer.cornerRadius = 10
+        cellBackgroundView.layer.cornerRadius = 20
+        cellBackgroundView.clipsToBounds = true
         
     }
 

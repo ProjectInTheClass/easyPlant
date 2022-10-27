@@ -179,16 +179,10 @@ class WriteDiaryViewController: UIViewController,UITextViewDelegate {
         //이미지 설정
         if let image = image, let _ = userplant{
             imageView.image = image
-   
         }
    
 
         saveBarButton.isEnabled = false
-        
-        let _:Date = Date()
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
         if editDiary != nil {
             titleTextField.text =  editDiary?.title
@@ -203,9 +197,16 @@ class WriteDiaryViewController: UIViewController,UITextViewDelegate {
         }
         
         
+       updateUI()
+        
+        
+    }
+    
+    func updateUI(){
         //각종 UI 설정
         contentView.layer.zPosition = 100
         imageView.layer.zPosition = 99
+        
         stackView.layer.cornerRadius = 20
         contentView.layer.cornerRadius = 30
         
@@ -218,8 +219,6 @@ class WriteDiaryViewController: UIViewController,UITextViewDelegate {
             contentTextField.text = "내용을 입력하세요"
             contentTextField.textColor = UIColor.lightGray
         }
-        
-        
     }
     
     //다른곳을 터지하면 키보드가 내려가게 하는 함수
@@ -232,8 +231,8 @@ class WriteDiaryViewController: UIViewController,UITextViewDelegate {
     //아래 두함수는 키보드에 따라 뷰를 올리고 내리는 함수들
     @objc func keyboardShow(notification: NSNotification, sender: Any?) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                if self.view.frame.origin.y == 0 {
-                    self.view.frame.origin.y -= (keyboardSize.height / 2 + 10)
+                if self.contentView.frame.origin.y == 0 {
+                    self.contentView.frame.origin.y -= (keyboardSize.height / 2 + 10)
 
             }
         }
@@ -242,8 +241,8 @@ class WriteDiaryViewController: UIViewController,UITextViewDelegate {
 
     @objc func keyboardHide(notification: NSNotification,sender: Any?) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += (keyboardSize.height / 2 + 10)
+            if self.contentView.frame.origin.y != 0 {
+                self.contentView.frame.origin.y += (keyboardSize.height / 2 + 10)
 
             }
         }

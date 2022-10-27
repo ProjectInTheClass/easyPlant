@@ -10,13 +10,14 @@ import UIKit
 class SearchTabViewController: UIViewController {
     @IBOutlet var menuButtons: [UIButton]!
     @IBOutlet weak var totalSearch: UIButton!
+    
     var titleSend: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
      
         setUI()
-        self.view.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
+        self.view.backgroundColor = .easyPlantPrimary
       
     }
     
@@ -36,7 +37,7 @@ class SearchTabViewController: UIViewController {
     func setUI(){
         for but in menuButtons{
             but.layer.borderWidth = 0.5
-            but.layer.borderColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1)).cgColor
+            but.layer.borderColor = UIColor.easyPlantPrimary.cgColor
             
             but.layer.cornerRadius = 20
             but.layer.backgroundColor = UIColor.white.cgColor
