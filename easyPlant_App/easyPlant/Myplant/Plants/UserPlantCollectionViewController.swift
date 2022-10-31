@@ -158,7 +158,6 @@ class UserPlantCollectionViewController: UIViewController,UICollectionViewDelega
         if segue.identifier == "toLoginPage" {
             if let nav = segue.destination as? CustomNavigationController, let detailVC = nav.topViewController as? LoginViewController{
                 detailVC.userPlantCollectionDelegate = self
-                detailVC.plantCollectionView = self
             }
         }
         

@@ -224,24 +224,24 @@
 		12166391263BB8F700125C69 /* easyPlant */ = {
 			isa = PBXGroup;
 			children = (
-				D6945C53290A1565001C7FD3 /* Util */,
 				3EFF6E49269EA5AA007C8C94 /* easyPlant.entitlements */,
 				12166392263BB8F700125C69 /* AppDelegate.swift */,
 				12166394263BB8F700125C69 /* SceneDelegate.swift */,
+				1216639B263BB8F800125C69 /* Assets.xcassets */,
+				12E3E94A269EB97B001ED3C6 /* GoogleService-Info.plist */,
+				121663A0263BB8F800125C69 /* Info.plist */,
+				D6945C53290A1565001C7FD3 /* Util */,
 				D6945C52290A153A001C7FD3 /* Storyboard */,
 				D65F95B9269C0E4000E1115F /* Onboarding */,
 				3E86D01F269963D400C99B13 /* Login */,
 				12799938266E07BD0072E9FF /* Authorization */,
 				1279993A266E07CD0072E9FF /* Custom */,
 				12799939266E07C80072E9FF /* Model */,
-				D6945C58290A2097001C7FD3 /* Logic */,
+				D6945C58290A2097001C7FD3 /* ModelLogic */,
 				12EA1D7426479699009A0A5E /* Home */,
 				12EA1D76264796AE009A0A5E /* Myplant */,
 				12EA1D77264796BA009A0A5E /* Search */,
 				12E3E94E26A03B42001ED3C6 /* Network */,
-				1216639B263BB8F800125C69 /* Assets.xcassets */,
-				12E3E94A269EB97B001ED3C6 /* GoogleService-Info.plist */,
-				121663A0263BB8F800125C69 /* Info.plist */,
 				121663B3263BB8F800125C69 /* easyPlantUITests */,
 			);
 			path = easyPlant;
@@ -426,7 +426,7 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		D6945C58290A2097001C7FD3 /* Logic */ = {
+		D6945C58290A2097001C7FD3 /* ModelLogic */ = {
 			isa = PBXGroup;
 			children = (
 				D6945C62290A2445001C7FD3 /* UserPlantLogic.swift */,
@@ -434,7 +434,7 @@
 				D6945C64290A2470001C7FD3 /* UserLogic.swift */,
 				D6945C66290A259E001C7FD3 /* DiaryLogic.swift */,
 			);
-			path = Logic;
+			path = ModelLogic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -916,7 +916,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.HYUEasyPlant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -942,7 +942,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.HYUEasyPlant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1003,6 +1003,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlantUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1023,6 +1024,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlantUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

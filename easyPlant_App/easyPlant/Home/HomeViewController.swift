@@ -30,8 +30,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var clickedDay: Date = Date()
     var listPlantsIndex: [Int] = []
     
+    private var calendarHeight: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        self.view.backgroundColor = .easyPlantPrimary
+        self.plantListTableView.backgroundColor = UIColor.clear
+        
         
         calendar.register(FSCalendarCell.self, forCellReuseIdentifier: "calendarCell")
       
@@ -87,7 +96,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         saveUserInfo(user: myUser)
 
        
-        var badge = 0
         //알람 설정
         for (i, plant) in userPlants.enumerated() {
             if Auth.auth().currentUser == nil {
@@ -99,8 +107,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             notiContent.title = "\(plant.name) 물 줄 시간이예요!"
             notiContent.body = "물 뿌리개를 통해 \(plant.name)에게 물을 주세요."
-            badge += 1
-            notiContent.badge = (badge) as NSNumber
+
             
             var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: plant.wateringDay)
             dateComponents.hour = Calendar.current.component(.hour, from: plant.alarmTime)
@@ -120,34 +127,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showLevelView(sender:)))
         userView.addGestureRecognizer(tapGesture)
         
-        self.calendar.scope = .week
-        calendar.headerHeight = 50
-        calendar.weekdayHeight = 20
-        calendar.rowHeight = 100
-        
-        calendar.collectionView.backgroundColor = .systemYellow
         
         //달력 설정
-        calendar.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendar.appearance.headerDateFormat = "M월"
+        calendar.scope = .week
+        
+        calendar.headerHeight = 50
+        calendar.appearance.headerMinimumDissolvedAlpha = 0.1
+        calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerTitleColor = .black
         calendar.locale = Locale(identifier: "ko_KR")
-        for i in 0...6 {
-            calendar.calendarWeekdayView.weekdayLabels[i].font = UIFont(name:"나눔명조", size: 60.0)
-        }
-        calendar.calendarWeekdayView.weekdayLabels[0].text = "일"
-        calendar.calendarWeekdayView.weekdayLabels[1].text = "월"
-        calendar.calendarWeekdayView.weekdayLabels[2].text = "화"
-        calendar.calendarWeekdayView.weekdayLabels[3].text = "수"
-        calendar.calendarWeekdayView.weekdayLabels[4].text = "목"
-        calendar.calendarWeekdayView.weekdayLabels[5].text = "금"
-        calendar.calendarWeekdayView.weekdayLabels[6].text = "토"
-        
 
-        
+        calendar.appearance.weekdayFont = UIFont(name:"나눔명조", size: 40.0)
+
         calendar.appearance.todayColor = UIColor(red: 147/255, green: 201/255, blue: 115/255, alpha: 1)
         calendar.appearance.selectionColor = UIColor(red: 147/255, green: 170/255, blue: 147/255, alpha: 1)
+
+        calendar.collectionView.backgroundColor = .systemGreen
+        
+        calendarHeight?.isActive = true
+        calendar.delegate = self
         calendar.layer.cornerRadius = 20
+
 
         //유저의 레벨정보 뷰 설정
         userView.backgroundColor = .white
@@ -164,6 +164,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setShadowView(view: userView)
         setShadowView(view: calendar)
         setShadowView(view: plantListTableView)
+        
+       
+
    
     }
     
@@ -200,12 +203,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //UI 설정
     func reloadUI(){
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
-        self.view.backgroundColor = .easyPlantPrimary
-        self.plantListTableView.backgroundColor = UIColor.clear
-        
         levelLabel.text = "\(myUser.level.name)"
         levelLabel.textColor = UIColor.black
         levelImage.image = UIImage(named: myUser.level.icon)
@@ -220,6 +217,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             hapinessImage.isHidden = true
         }
         
+        // 행복도 차트 계산
         var ChartEntry : [ChartDataEntry] = []
         let value_fill = PieChartDataEntry(value: 0)
         let value_empty = PieChartDataEntry(value: 0)
@@ -468,14 +466,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "toLoginPage" {
             if let nav = segue.destination as? CustomNavigationController, let detailVC = nav.topViewController as? LoginViewController{
                 detailVC.homeDelegate = self
-                detailVC.homeView = self
             }
         }
     }
 }
 
 
-extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance, FSCalendarDelegate {
     //이벤트 표시 개수
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let formatter = DateFormatter()
@@ -523,7 +520,12 @@ extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance
         plantListTableView.reloadData()
     }
     
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        calendarHeight?.constant = bounds.height
+        view.layoutIfNeeded()
+    }
 
+   
     
    
 }

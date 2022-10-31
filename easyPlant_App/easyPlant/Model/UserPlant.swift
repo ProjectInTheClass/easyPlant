@@ -12,7 +12,7 @@ import FirebaseAuth
 
 
 
-var userPlants : [UserPlant] = [UserPlant(name: "초록콩", location: "샘플", recentWater : "2021-06-02", registedDate: "2010-10-30",  waterPeriod: 5, wateringDay: Date(), plantSpecies: "샘플", diarylist: diarys, color: Color(uiColor: UIColor(red: 200/255, green: 1/255, blue: 1/255, alpha: 1)), happeniess: [86,65,67,98,87,68,76,77,89,76], alarmTime: Date(timeIntervalSinceNow: 66) ,plantImage: "Corokia.jpeg", watered: 0, totalWaterNum: 0, didWaterNum: 0),
+var userPlants : [UserPlant] = [UserPlant(name: "초록콩", location: "샘플", recentWater : "2021-06-02", registedDate: "2010-10-30",  waterPeriod: 3, wateringDay: Date(), plantSpecies: "샘플", diarylist: diarys, color: Color(uiColor: UIColor(red: 200/255, green: 1/255, blue: 1/255, alpha: 1)), happeniess: [86,65,67,98,87,68,76,77,89,76], alarmTime: Date(timeIntervalSinceNow: 66) ,plantImage: "Corokia.jpeg", watered: 0, totalWaterNum: 0, didWaterNum: 0),
                                 UserPlant(name: "까망콩", location: "샘플", recentWater : "2021-06-04", registedDate: "2010-10-30", waterPeriod: 3, wateringDay: Date(), plantSpecies: "샘플",  diarylist: diarys, color: Color(uiColor: UIColor(red: 255/255, green: 255/255, blue: 0/255, alpha: 1)), happeniess: [86,65,57,76], alarmTime: Date(timeIntervalSinceNow: 66) ,plantImage: "CornPlant.jpeg", watered: 0, totalWaterNum: 0, didWaterNum: 0),
                                 UserPlant(name: "연두콩", location: "샘플", recentWater : "2021-06-06",registedDate: "2010-10-30", waterPeriod: 1, wateringDay: Date(), plantSpecies: "샘플", diarylist: diarys, color: Color(uiColor: UIColor(red: 20/255, green: 180/255, blue: 30/255, alpha: 1)), happeniess:  [86,65,67,98,87,64,76,77,89,76], alarmTime: Date(timeIntervalSinceNow: 15), plantImage: "Syngonium.jpeg", watered: 0, totalWaterNum: 0, didWaterNum: 0),
                                 UserPlant(name: "파란콩", location: "샘플", recentWater : "2021-06-05",registedDate: "2010-10-30", waterPeriod: 2, wateringDay: Date(), plantSpecies: "샘플", diarylist: diarys, color: Color(uiColor: UIColor(red: 150/255, green: 220/255, blue: 200/255, alpha: 1)), happeniess:  [86,65,67,98,87,68,76,77,89,74], alarmTime: Date(timeIntervalSinceNow: 66) , plantImage: "Monstrous.jpeg", watered: 0, totalWaterNum: 0, didWaterNum: 0)]
@@ -30,7 +30,7 @@ struct UserPlant : Codable {
     var happeniess : [Int] = []
     var alarmTime : Date = Date()
     var plantImage : String = "plant"
-    var watered : Int = 0
+    var watered : Int = 0 //물을 줬나 안줬나
     var totalWaterNum: Int = 0
     var didWaterNum: Int = 0
     

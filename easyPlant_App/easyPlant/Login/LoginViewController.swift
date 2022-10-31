@@ -22,8 +22,6 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var stackView: UIStackView!
     
-    var plantCollectionView: UserPlantCollectionViewController?
-    var homeView: HomeViewController?
     
     var userPlantCollectionDelegate : userPlantCollectionDelegate?
     var homeDelegate : HomeDelegate?

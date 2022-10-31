@@ -14,8 +14,8 @@ class CustomTabBarController: UITabBarController {
 
         self.tabBar.backgroundImage = UIImage()
         self.tabBar.shadowImage = UIImage()
-        self.tabBar.backgroundColor = UIColor.white 
-        self.tabBarController?.selectedIndex = 1;
+        self.tabBar.backgroundColor = UIColor.systemBackground
+        self.tabBarController?.selectedIndex = 1
 
     }
 
