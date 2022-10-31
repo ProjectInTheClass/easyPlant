@@ -30,7 +30,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var clickedDay: Date = Date()
     var listPlantsIndex: [Int] = []
     
-    private var calendarHeight: NSLayoutConstraint?
+//    private var calendarHeight: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +132,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         calendar.scope = .week
         
         calendar.headerHeight = 50
+        calendar.pagingEnabled = true
+        calendar.weekdayHeight = 20
+        
         calendar.appearance.headerMinimumDissolvedAlpha = 0.1
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerTitleColor = .black
@@ -142,10 +145,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         calendar.appearance.todayColor = UIColor(red: 147/255, green: 201/255, blue: 115/255, alpha: 1)
         calendar.appearance.selectionColor = UIColor(red: 147/255, green: 170/255, blue: 147/255, alpha: 1)
 
-        calendar.collectionView.backgroundColor = .systemGreen
         
-        calendarHeight?.isActive = true
-        calendar.delegate = self
+//        calendarHeight?.isActive = true
+//        calendar.delegate = self
         calendar.layer.cornerRadius = 20
 
 
@@ -164,10 +166,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setShadowView(view: userView)
         setShadowView(view: calendar)
         setShadowView(view: plantListTableView)
-        
-       
-
-   
+    
     }
     
     
@@ -352,7 +351,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
    
     
-    //상황에 따라 달라지느 UI 설정
+    //상황에 따라 달라지는 UI 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "plantCell", for: indexPath) as! UserPlantTableViewCell
         
@@ -472,8 +471,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 }
 
 
-extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance, FSCalendarDelegate {
-    //이벤트 표시 개수
+extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
+    // 이벤트 표시 개수
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
@@ -520,10 +519,11 @@ extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance
         plantListTableView.reloadData()
     }
     
-    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        calendarHeight?.constant = bounds.height
-        view.layoutIfNeeded()
-    }
+//    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+//        calendarHeight?.constant = bounds.height
+//        calendar.frame = CGRect(origin: calendar.frame.origin, size: bounds.size)
+//        view.layoutIfNeeded()
+//    }
 
    
     
