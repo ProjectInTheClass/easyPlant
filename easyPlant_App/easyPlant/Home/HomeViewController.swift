@@ -27,16 +27,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let userNotificationCenter = UNUserNotificationCenter.current()
     var indexTmp : IndexPath = IndexPath()
+    var clickedDay: Date = Date()
+    var listPlantsIndex: [Int] = []
     
+//    private var calendarHeight: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        self.view.backgroundColor = .easyPlantPrimary
         self.plantListTableView.backgroundColor = UIColor.clear
+        
+        
         calendar.register(FSCalendarCell.self, forCellReuseIdentifier: "calendarCell")
       
         // Request notification authentication
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
-                })
+        })
 
         //앱껏다키면 로컬 데이터는 사라져서 매번 원격에서 json 파일 읽어야될 거 같애
         loadPlantData()
@@ -47,7 +57,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if launchedBefore  {
             print("Not first launch.")
         } else {
-            
             print("this is first launch")
             do {
                 try Auth.auth().signOut()
@@ -60,6 +69,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             UserDefaults.standard.set(true, forKey: "launchedBefore")
             
             deleteLocalData()
+            
             if Auth.auth().currentUser != nil {
                 do {
                     try Auth.auth().signOut()
@@ -69,7 +79,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 self.navigationController?.popViewController(animated: true)
             }
-            
             
 
             let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
@@ -98,6 +107,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             notiContent.title = "\(plant.name) 물 줄 시간이예요!"
             notiContent.body = "물 뿌리개를 통해 \(plant.name)에게 물을 주세요."
+
             
             var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: plant.wateringDay)
             dateComponents.hour = Calendar.current.component(.hour, from: plant.alarmTime)
@@ -117,33 +127,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showLevelView(sender:)))
         userView.addGestureRecognizer(tapGesture)
         
-        self.calendar.scope = .week
-        calendar.headerHeight = 50
-
-        
-        
-        self.view.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
         
         //달력 설정
+        calendar.scope = .week
+        
+        calendar.headerHeight = 50
+        calendar.pagingEnabled = true
+        calendar.weekdayHeight = 20
+        
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendar.appearance.headerDateFormat = "M월"
+        calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerTitleColor = .black
         calendar.locale = Locale(identifier: "ko_KR")
-        for i in 0...6 {
-            calendar.calendarWeekdayView.weekdayLabels[i].font = UIFont(name:"나눔명조", size: 60.0)
-        }
-        calendar.calendarWeekdayView.weekdayLabels[0].text = "일"
-        calendar.calendarWeekdayView.weekdayLabels[1].text = "월"
-        calendar.calendarWeekdayView.weekdayLabels[2].text = "화"
-        calendar.calendarWeekdayView.weekdayLabels[3].text = "수"
-        calendar.calendarWeekdayView.weekdayLabels[4].text = "목"
-        calendar.calendarWeekdayView.weekdayLabels[5].text = "금"
-        calendar.calendarWeekdayView.weekdayLabels[6].text = "토"
-        
-        
+
+        calendar.appearance.weekdayFont = UIFont(name:"나눔명조", size: 40.0)
+
         calendar.appearance.todayColor = UIColor(red: 147/255, green: 201/255, blue: 115/255, alpha: 1)
         calendar.appearance.selectionColor = UIColor(red: 147/255, green: 170/255, blue: 147/255, alpha: 1)
+
+        
+//        calendarHeight?.isActive = true
+//        calendar.delegate = self
         calendar.layer.cornerRadius = 20
+
 
         //유저의 레벨정보 뷰 설정
         userView.backgroundColor = .white
@@ -157,21 +163,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         plantListTableView.layer.zPosition = 100
         bgView.layer.zPosition = 0
         
-        userView.layer.shadowOpacity = 0.2
-        userView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        userView.layer.shadowRadius = 30
-        userView.layer.masksToBounds = false
-        
-        calendar.layer.shadowOpacity = 0.2
-        calendar.layer.shadowOffset = CGSize(width: 0, height: 5)
-        calendar.layer.shadowRadius = 30
-        calendar.layer.masksToBounds = false
-        
-        plantListTableView.layer.shadowOpacity = 0.2
-        plantListTableView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        plantListTableView.layer.shadowRadius = 30
-        plantListTableView.layer.masksToBounds = false
-
+        setShadowView(view: userView)
+        setShadowView(view: calendar)
+        setShadowView(view: plantListTableView)
+    
     }
     
     
@@ -195,18 +190,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
+        
+        
     }
     
-    //UI 설정들
+
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
-        plantListTableView.reloadData()
-        
-        myUser.updateUser()
-        calendar.reloadData()
-        
+        reloadUI()
+       
+    }
+    
+    //UI 설정
+    func reloadUI(){
         levelLabel.text = "\(myUser.level.name)"
         levelLabel.textColor = UIColor.black
         levelImage.image = UIImage(named: myUser.level.icon)
@@ -221,6 +216,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             hapinessImage.isHidden = true
         }
         
+        // 행복도 차트 계산
         var ChartEntry : [ChartDataEntry] = []
         let value_fill = PieChartDataEntry(value: 0)
         let value_empty = PieChartDataEntry(value: 0)
@@ -232,8 +228,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         ChartEntry.append(value_fill)
         ChartEntry.append(value_empty)
-        
-        let chartDataSet = PieChartDataSet(entries: ChartEntry, label: nil)
+        let chartDataSet = PieChartDataSet(entries: ChartEntry, label: "")
         let chartData = PieChartData(dataSet: chartDataSet)
         
         var colors: [NSUIColor] = []
@@ -251,7 +246,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         pieChart.transparentCircleRadiusPercent = 0
         pieChart.holeRadiusPercent = 50
         pieChart.legend.enabled = false
-        pieChart.chartDescription?.enabled = true
+        pieChart.chartDescription.enabled = true
         pieChart.drawHoleEnabled = false
         pieChart.drawCenterTextEnabled = true
         
@@ -267,6 +262,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         pieChart.minOffset = 0
         pieChart.data = chartData
         pieChart.isHidden = false
+        
+        
+        plantListTableView.reloadData()
+        calendar.reloadData()
+        myUser.updateUser()
     }
     
     
@@ -351,7 +351,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
    
     
-    //상황에 따라 달라지느 UI 설정
+    //상황에 따라 달라지는 UI 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "plantCell", for: indexPath) as! UserPlantTableViewCell
         
@@ -464,16 +464,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLoginPage" {
             if let nav = segue.destination as? CustomNavigationController, let detailVC = nav.topViewController as? LoginViewController{
-                detailVC.homeView = self
+                detailVC.homeDelegate = self
             }
         }
     }
 }
 
 
-//확장함수들
 extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
-    //이벤트 표시 개수
+    // 이벤트 표시 개수
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
@@ -520,6 +519,14 @@ extension HomeViewController: FSCalendarDataSource, FSCalendarDelegateAppearance
         plantListTableView.reloadData()
     }
     
+//    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+//        calendarHeight?.constant = bounds.height
+//        calendar.frame = CGRect(origin: calendar.frame.origin, size: bounds.size)
+//        view.layoutIfNeeded()
+//    }
+
+   
+    
    
 }
 
@@ -535,15 +542,19 @@ extension HomeViewController: UNUserNotificationCenterDelegate {
     }
 }
 
+// Modal로 올라온 login을 하고나서 내려가면서 home을 업데이트하기 위한 delegate
+protocol HomeDelegate {
+    func reloadHome()
+    func reloadTableViewAndCalendar()
+}
 
-extension UIView {
-    func addShadow(){
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.2
-        self.layer.shadowRadius = 30
-        self.layer.shadowOffset = CGSize(width: 0, height: -10)
-
-        self.layer.masksToBounds = false
-        self.clipsToBounds = false
+extension HomeViewController: HomeDelegate {
+    func reloadHome() {
+        reloadUI()
+        print("=== finish the update ===")
+    }
+    func reloadTableViewAndCalendar(){
+        plantListTableView.reloadData()
+        calendar.reloadData()
     }
 }

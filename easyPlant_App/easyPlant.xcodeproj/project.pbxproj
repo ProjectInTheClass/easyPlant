@@ -26,7 +26,6 @@
 		1279995B266E09800072E9FF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279995A266E09800072E9FF /* HomeViewController.swift */; };
 		12BFBA4A26A056B2007825E8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 12BFBA4926A056B2007825E8 /* Alamofire */; };
 		12BFBA4C26A056EB007825E8 /* RestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BFBA4B26A056EB007825E8 /* RestAPI.swift */; };
-		12BFBA4F26A14682007825E8 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 12BFBA4E26A14682007825E8 /* SWXMLHash */; };
 		12E3E938269BE19F001ED3C6 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E3E937269BE19F001ED3C6 /* MypageViewController.swift */; };
 		12E3E940269BFAF4001ED3C6 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12E3E93F269BFAF4001ED3C6 /* Login.storyboard */; };
 		12E3E943269BFB10001ED3C6 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E3E941269BFB10001ED3C6 /* JoinViewController.swift */; };
@@ -44,6 +43,16 @@
 		D6119B2C265F92A400D947A0 /* EditUserPlantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6119B2B265F92A400D947A0 /* EditUserPlantTableViewController.swift */; };
 		D65F95B8269C0DDF00E1115F /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D65F95B7269C0DDF00E1115F /* Onboarding.storyboard */; };
 		D65F95BB269C0E6100E1115F /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65F95BA269C0E6100E1115F /* OnboardingViewController.swift */; };
+		D6945C4F290913DE001C7FD3 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = D6945C4E290913DE001C7FD3 /* SWXMLHash */; };
+		D6945C51290919A9001C7FD3 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C50290919A9001C7FD3 /* Color.swift */; };
+		D6945C55290A157C001C7FD3 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C54290A157C001C7FD3 /* View.swift */; };
+		D6945C57290A1F9C001C7FD3 /* PlantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C56290A1F9C001C7FD3 /* PlantType.swift */; };
+		D6945C5A290A20C4001C7FD3 /* PlantLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C59290A20C4001C7FD3 /* PlantLogic.swift */; };
+		D6945C5F290A21C0001C7FD3 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C5E290A21C0001C7FD3 /* Button.swift */; };
+		D6945C61290A227D001C7FD3 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C60290A227D001C7FD3 /* ImageView.swift */; };
+		D6945C63290A2445001C7FD3 /* UserPlantLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C62290A2445001C7FD3 /* UserPlantLogic.swift */; };
+		D6945C65290A2470001C7FD3 /* UserLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C64290A2470001C7FD3 /* UserLogic.swift */; };
+		D6945C67290A259E001C7FD3 /* DiaryLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6945C66290A259E001C7FD3 /* DiaryLogic.swift */; };
 		D6AEE1B12647B1EB00E85162 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AEE1B02647B1EB00E85162 /* Diary.swift */; };
 		D6AEE1B32647B1F600E85162 /* UserPlant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AEE1B22647B1F600E85162 /* UserPlant.swift */; };
 		D6AEE1B52647B20200E85162 /* DiaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AEE1B42647B20200E85162 /* DiaryCollectionViewCell.swift */; };
@@ -123,6 +132,15 @@
 		D6119B2B265F92A400D947A0 /* EditUserPlantTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserPlantTableViewController.swift; sourceTree = "<group>"; };
 		D65F95B7269C0DDF00E1115F /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		D65F95BA269C0E6100E1115F /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		D6945C50290919A9001C7FD3 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		D6945C54290A157C001C7FD3 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		D6945C56290A1F9C001C7FD3 /* PlantType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantType.swift; sourceTree = "<group>"; };
+		D6945C59290A20C4001C7FD3 /* PlantLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantLogic.swift; sourceTree = "<group>"; };
+		D6945C5E290A21C0001C7FD3 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		D6945C60290A227D001C7FD3 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D6945C62290A2445001C7FD3 /* UserPlantLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPlantLogic.swift; sourceTree = "<group>"; };
+		D6945C64290A2470001C7FD3 /* UserLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLogic.swift; sourceTree = "<group>"; };
+		D6945C66290A259E001C7FD3 /* DiaryLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryLogic.swift; sourceTree = "<group>"; };
 		D6AEE1B02647B1EB00E85162 /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		D6AEE1B22647B1F600E85162 /* UserPlant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPlant.swift; sourceTree = "<group>"; };
 		D6AEE1B42647B20200E85162 /* DiaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -143,7 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12BFBA4F26A14682007825E8 /* SWXMLHash in Frameworks */,
+				D6945C4F290913DE001C7FD3 /* SWXMLHash in Frameworks */,
 				47D8D3177E205A8A242DE88D /* Pods_easyPlant.framework in Frameworks */,
 				12BFBA4A26A056B2007825E8 /* Alamofire in Frameworks */,
 			);
@@ -209,25 +227,21 @@
 				3EFF6E49269EA5AA007C8C94 /* easyPlant.entitlements */,
 				12166392263BB8F700125C69 /* AppDelegate.swift */,
 				12166394263BB8F700125C69 /* SceneDelegate.swift */,
+				1216639B263BB8F800125C69 /* Assets.xcassets */,
+				12E3E94A269EB97B001ED3C6 /* GoogleService-Info.plist */,
+				121663A0263BB8F800125C69 /* Info.plist */,
+				D6945C53290A1565001C7FD3 /* Util */,
+				D6945C52290A153A001C7FD3 /* Storyboard */,
 				D65F95B9269C0E4000E1115F /* Onboarding */,
 				3E86D01F269963D400C99B13 /* Login */,
 				12799938266E07BD0072E9FF /* Authorization */,
 				1279993A266E07CD0072E9FF /* Custom */,
-				12799939266E07C80072E9FF /* Data */,
+				12799939266E07C80072E9FF /* Model */,
+				D6945C58290A2097001C7FD3 /* ModelLogic */,
 				12EA1D7426479699009A0A5E /* Home */,
 				12EA1D76264796AE009A0A5E /* Myplant */,
 				12EA1D77264796BA009A0A5E /* Search */,
-				12E3E94E26A03B42001ED3C6 /* Database */,
-				1216639B263BB8F800125C69 /* Assets.xcassets */,
-				1218F173265A0E19000D99F4 /* Home.storyboard */,
-				12166398263BB8F700125C69 /* Main.storyboard */,
-				D6CC2DE52663AFF8009E5710 /* MyPlant.storyboard */,
-				12E3E948269C27DA001ED3C6 /* Mypage.storyboard */,
-				12E3E93F269BFAF4001ED3C6 /* Login.storyboard */,
-				D65F95B7269C0DDF00E1115F /* Onboarding.storyboard */,
-				1216639D263BB8F800125C69 /* LaunchScreen.storyboard */,
-				12E3E94A269EB97B001ED3C6 /* GoogleService-Info.plist */,
-				121663A0263BB8F800125C69 /* Info.plist */,
+				12E3E94E26A03B42001ED3C6 /* Network */,
 				121663B3263BB8F800125C69 /* easyPlantUITests */,
 			);
 			path = easyPlant;
@@ -259,7 +273,7 @@
 			path = Authorization;
 			sourceTree = "<group>";
 		};
-		12799939266E07C80072E9FF /* Data */ = {
+		12799939266E07C80072E9FF /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D6AEE1B22647B1F600E85162 /* UserPlant.swift */,
@@ -267,8 +281,9 @@
 				D6CC2DE32663AC68009E5710 /* User.swift */,
 				D6AEE1B02647B1EB00E85162 /* Diary.swift */,
 				D6CC2DE12663AC57009E5710 /* Level.swift */,
+				D6945C56290A1F9C001C7FD3 /* PlantType.swift */,
 			);
-			path = Data;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		1279993A266E07CD0072E9FF /* Custom */ = {
@@ -309,12 +324,12 @@
 			path = Plants;
 			sourceTree = "<group>";
 		};
-		12E3E94E26A03B42001ED3C6 /* Database */ = {
+		12E3E94E26A03B42001ED3C6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				12BFBA4B26A056EB007825E8 /* RestAPI.swift */,
 			);
-			path = Database;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		12EA1D7426479699009A0A5E /* Home */ = {
@@ -386,6 +401,42 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		D6945C52290A153A001C7FD3 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1218F173265A0E19000D99F4 /* Home.storyboard */,
+				12166398263BB8F700125C69 /* Main.storyboard */,
+				D6CC2DE52663AFF8009E5710 /* MyPlant.storyboard */,
+				12E3E948269C27DA001ED3C6 /* Mypage.storyboard */,
+				12E3E93F269BFAF4001ED3C6 /* Login.storyboard */,
+				D65F95B7269C0DDF00E1115F /* Onboarding.storyboard */,
+				1216639D263BB8F800125C69 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		D6945C53290A1565001C7FD3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D6945C50290919A9001C7FD3 /* Color.swift */,
+				D6945C54290A157C001C7FD3 /* View.swift */,
+				D6945C5E290A21C0001C7FD3 /* Button.swift */,
+				D6945C60290A227D001C7FD3 /* ImageView.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		D6945C58290A2097001C7FD3 /* ModelLogic */ = {
+			isa = PBXGroup;
+			children = (
+				D6945C62290A2445001C7FD3 /* UserPlantLogic.swift */,
+				D6945C59290A20C4001C7FD3 /* PlantLogic.swift */,
+				D6945C64290A2470001C7FD3 /* UserLogic.swift */,
+				D6945C66290A259E001C7FD3 /* DiaryLogic.swift */,
+			);
+			path = ModelLogic;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -406,7 +457,7 @@
 			name = easyPlant;
 			packageProductDependencies = (
 				12BFBA4926A056B2007825E8 /* Alamofire */,
-				12BFBA4E26A14682007825E8 /* SWXMLHash */,
+				D6945C4E290913DE001C7FD3 /* SWXMLHash */,
 			);
 			productName = easyPlant;
 			productReference = 1216638F263BB8F700125C69 /* easyPlant.app */;
@@ -484,7 +535,7 @@
 			mainGroup = 12166386263BB8F700125C69;
 			packageReferences = (
 				12BFBA4826A056B2007825E8 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				12BFBA4D26A14682007825E8 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
+				D6945C4D290913DE001C7FD3 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
 			);
 			productRefGroup = 12166390263BB8F700125C69 /* Products */;
 			projectDirPath = "";
@@ -640,16 +691,21 @@
 			files = (
 				D6AEE1B52647B20200E85162 /* DiaryCollectionViewCell.swift in Sources */,
 				12EA1D2D2647950E009A0A5E /* UserPlantTableViewCell.swift in Sources */,
+				D6945C63290A2445001C7FD3 /* UserPlantLogic.swift in Sources */,
 				1218F212265FE3CB000D99F4 /* LevelViewController.swift in Sources */,
 				121663E3263BC5AE00125C69 /* Plant.swift in Sources */,
 				D6AEE1B12647B1EB00E85162 /* Diary.swift in Sources */,
+				D6945C5F290A21C0001C7FD3 /* Button.swift in Sources */,
 				D6CC2DE22663AC57009E5710 /* Level.swift in Sources */,
 				D6CC2DE82663B14C009E5710 /* UserPlantCollectionViewController.swift in Sources */,
 				D6CC2DE42663AC68009E5710 /* User.swift in Sources */,
 				121663C6263BBD8200125C69 /* SearchTabViewController.swift in Sources */,
 				12799956266E09750072E9FF /* NotificationViewController.swift in Sources */,
 				12166393263BB8F700125C69 /* AppDelegate.swift in Sources */,
+				D6945C57290A1F9C001C7FD3 /* PlantType.swift in Sources */,
+				D6945C67290A259E001C7FD3 /* DiaryLogic.swift in Sources */,
 				D6CC2DEA2663B22E009E5710 /* UserPlantCollectionViewCell.swift in Sources */,
+				D6945C55290A157C001C7FD3 /* View.swift in Sources */,
 				121663D3263BC2AF00125C69 /* CellTableViewCell.swift in Sources */,
 				D6AEE1B72647B20D00E85162 /* MyPlantViewController.swift in Sources */,
 				12E3E938269BE19F001ED3C6 /* MypageViewController.swift in Sources */,
@@ -659,15 +715,19 @@
 				12E3E944269BFB10001ED3C6 /* LoginViewController.swift in Sources */,
 				3E86D0DC269C6C0100C99B13 /* FindViewController.swift in Sources */,
 				1279995B266E09800072E9FF /* HomeViewController.swift in Sources */,
+				D6945C51290919A9001C7FD3 /* Color.swift in Sources */,
 				12E3E943269BFB10001ED3C6 /* JoinViewController.swift in Sources */,
 				D6CC2DE026636215009E5710 /* PushAlarmViewController.swift in Sources */,
 				D6119B2C265F92A400D947A0 /* EditUserPlantTableViewController.swift in Sources */,
 				D65F95BB269C0E6100E1115F /* OnboardingViewController.swift in Sources */,
+				D6945C65290A2470001C7FD3 /* UserLogic.swift in Sources */,
 				121663CB263BBDE200125C69 /* PlantDetailViewController.swift in Sources */,
+				D6945C61290A227D001C7FD3 /* ImageView.swift in Sources */,
 				1218F192265A3384000D99F4 /* CustomTabBarController.swift in Sources */,
 				12EA1DD726510B9A009A0A5E /* CustomNavigationController.swift in Sources */,
 				D6AEE1C72647E76000E85162 /* homePlantSettingTableViewController.swift in Sources */,
 				12166395263BB8F700125C69 /* SceneDelegate.swift in Sources */,
+				D6945C5A290A20C4001C7FD3 /* PlantLogic.swift in Sources */,
 				12BFBA4C26A056EB007825E8 /* RestAPI.swift in Sources */,
 				3E86CFD9266B709400C99B13 /* PhotosAuthorization.swift in Sources */,
 				121663DE263BC40400125C69 /* SortTableViewController.swift in Sources */,
@@ -776,7 +836,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -831,7 +891,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -851,14 +911,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.HYUEasyPlant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -872,14 +937,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.HYUEasyPlant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -891,7 +961,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = easyPlantTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -913,7 +983,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = easyPlantTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -933,6 +1003,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlantUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -953,6 +1024,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = easyPlantUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1017,12 +1089,12 @@
 				minimumVersion = 5.4.3;
 			};
 		};
-		12BFBA4D26A14682007825E8 /* XCRemoteSwiftPackageReference "SWXMLHash" */ = {
+		D6945C4D290913DE001C7FD3 /* XCRemoteSwiftPackageReference "SWXMLHash" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/drmohundro/SWXMLHash";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.2;
+				minimumVersion = 7.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1033,9 +1105,9 @@
 			package = 12BFBA4826A056B2007825E8 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		12BFBA4E26A14682007825E8 /* SWXMLHash */ = {
+		D6945C4E290913DE001C7FD3 /* SWXMLHash */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 12BFBA4D26A14682007825E8 /* XCRemoteSwiftPackageReference "SWXMLHash" */;
+			package = D6945C4D290913DE001C7FD3 /* XCRemoteSwiftPackageReference "SWXMLHash" */;
 			productName = SWXMLHash;
 		};
 /* End XCSwiftPackageProductDependency section */

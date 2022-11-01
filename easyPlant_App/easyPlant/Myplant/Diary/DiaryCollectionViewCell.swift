@@ -13,7 +13,7 @@ class DiaryCollectionViewCell: UICollectionViewCell {
     
     
     func update(info : Diary){
-  
+        imageView.layer.cornerRadius = 5
         downloadDiaryImage(imgview: imageView!, title: "\(info.picture)")
     }
 }
