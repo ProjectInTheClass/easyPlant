@@ -135,7 +135,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         calendar.pagingEnabled = true
         calendar.weekdayHeight = 20
         
-        calendar.appearance.headerMinimumDissolvedAlpha = 0.1
+        calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerTitleColor = .black
         calendar.locale = Locale(identifier: "ko_KR")
