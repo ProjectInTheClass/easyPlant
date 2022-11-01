@@ -11,7 +11,8 @@ import FirebaseStorage
 import Photos
 import PhotosUI
 import FirebaseAuth
-private let reuseIdentifier = "diaryCell"
+
+
 
 
 class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate, UICollectionViewDelegateFlowLayout {
@@ -24,6 +25,8 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
     var selectedImage : UIImage?
     var isDeleteDiary : Bool = false
     var dateString: String = ""
+    
+    private let reuseIdentifier = "diaryCell"
    
     @IBOutlet weak var backgroundView: UIView!
     
@@ -43,6 +46,8 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
     @IBOutlet weak var locationLabel2: UILabel!
     @IBOutlet weak var happinessLabel2: UILabel!
     
+    @IBOutlet weak var diaryView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
@@ -61,21 +66,15 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
     
     func updateUI(){
 
-        imageView.layer.borderWidth = 3
-        imageView.layer.borderColor = UIColor.white.cgColor
-        
-       
         if let myPlant = myPlant {
-          
             //등록일 위치 종류 데이터 불러오기
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
             
             let dateRegister:Date = dateFormatter.date(from: myPlant.registedDate)!
             let days = Calendar.current.dateComponents([.day], from: dateRegister, to: Date()).day!
-            self.days.text = "D+\(days)"
+            self.days.text = "D+ \(days)🍃"
             
             locationLabel.text = myPlant.location
             speciesLabel.text = myPlant.plantSpecies
@@ -88,12 +87,20 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
                 happeniessLabel.text = "0"
             }
             
+            if(myPlant.happeniess.count < months.count) {
+                let noDataNumbers = months.count - myPlant.happeniess.count //아직 데이터가 없는 달
+                numbers = [Int](repeating: 0, count: noDataNumbers) + myPlant.happeniess
+            } else {
+                numbers = myPlant.happeniess.suffix(12)
+            }
+            print(numbers)
+            
             //이미지 불러오기
             downloadUserPlantImage(imgview: imageView, title: myPlant.plantImage)
             imageView.layer.cornerRadius = imageView.frame.width / 2.0
             imageView.layer.masksToBounds = true
             
-            numbers = myPlant.happeniess
+
             
             //테두리 밖은 잘려서 표시됨
             dDayLabel?.layer.masksToBounds = true
@@ -106,57 +113,62 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
         var value : ChartDataEntry
         ChartEntry = []
         
-        var x = 0
-        // chart data array 에 데이터 추가
-        for i in 0..<months.count {
-            let lastIndex = numbers.count-1
-            let nowIndex = lastIndex - (months.count-1-i)
-            
-            if(numbers.count > nowIndex && nowIndex >= 0){
-                value = ChartDataEntry(x: Double(x), y: Double(numbers[nowIndex]))
-                x += 1
-                ChartEntry.append(value)
 
-            }
+        // chart data array 에 데이터 추가
+        
+        for i in 0..<months.count {
+            value = ChartDataEntry(x: Double(i), y: Double(numbers[i]))
+            ChartEntry.append(value)
         }
         
-        if ChartEntry.count < 12 {
-            
-            let extra = 12 - ChartEntry.count
-            
-            for i in 1...extra{
-                
-                value = ChartDataEntry(x: Double(x), y: 0.0)
-                ChartEntry.append(value)
-                x += 1
-            }
-        }
  
         //차트 설정
-        let chartDataset = LineChartDataSet(entries: ChartEntry, label: "올해의 행복도 변화")
-               let chartData = LineChartData(dataSet: chartDataset)
+        let chartDataset = LineChartDataSet(entries: ChartEntry, label: "최근 1년간의 행복도 변화")
+        let chartData = LineChartData(dataSet: chartDataset)
         
-        chartView.rightAxis.enabled = false
-        chartView.leftAxis.enabled = false
-        chartView.drawBordersEnabled = false
-        chartView.xAxis.enabled = false
   
-        var circleColors: [NSUIColor] = []           // arrays with circle color definitions
+        //x축 months 계산
+//        let registeredMonth = Int( myPlant?.registedDate.split(separator: "-")[1] ?? Substring() ) ?? 1 // 등록한 달
+        let currentMonth = Calendar.current.component(.month, from: Date()) // 현재 달
+        let recentMonths = months[currentMonth..<months.count] + months.prefix(currentMonth)
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: Array<String>(recentMonths))
+        print(recentMonths)
+        
+        // set colors and enable value drawing
+        var circleColors: [NSUIColor] = []
         let color = UIColor(red: CGFloat(174.0/255), green: CGFloat(213.0/255), blue: CGFloat(129.0/255), alpha: 1)
         circleColors.append(color)
-        
 
-        // set colors and enable value drawing
         chartDataset.colors = circleColors
         chartDataset.circleHoleColor = color
         chartDataset.circleColors = circleColors
+        chartDataset.circleRadius = 4
         chartDataset.drawValuesEnabled = true
         
-
+        //chart UI 설정
+        chartView.borderColor = .systemGray6
+        chartView.xAxis.labelPosition = .bottom
+        chartView.rightAxis.enabled = false
+        chartView.leftAxis.enabled = true
+        chartView.xAxis.enabled = true
+        chartView.drawBordersEnabled = false
+        chartView.doubleTapToZoomEnabled = false
         chartView.data = chartData
-        //chartView.layer.cornerRadius = 20
         chartView.layer.masksToBounds = true
-
+        chartView.xAxis.setLabelCount(months.count, force: true)
+        
+        
+        
+        //chart animation
+        chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        
+        // UI setting
+        backgroundView.layer.cornerRadius = 10
+        diaryView.clipsToBounds = true
+        diaryView.layer.cornerRadius = 20
+        diaryView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        diaryView.layer.zPosition = 101
+        imageView.layer.zPosition = 101
     }
     
     func myPlantUpdate(){
@@ -173,7 +185,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
             showAlert()
             return
         }
-        let alertController = UIAlertController(title: "다이어리 추가", message: nil, preferredStyle: .actionSheet)//action sheet 이름을 choose imageSource로 스타일은 actionsheet
+        let alertController = UIAlertController(title: "다이어리 추가", message: nil, preferredStyle: .actionSheet)
         
         requestCameraPermission()
         requestGalleryPermission()
@@ -200,7 +212,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
         
         //사진 앨범으로 추가하기
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            var configuration = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
+//            var configuration = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
             let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
             
             switch photoAuthorizationStatus {
@@ -215,7 +227,6 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
                     alertController.addAction(photoLibraryAction)
                 
                 //팝오버로 보여준다
-                
                 alertController.popoverPresentationController?.sourceView = sender as! UIButton
                 present(alertController, animated: true, completion: nil)
                 break
@@ -226,7 +237,6 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
                     alertController.addAction(photoLibraryAction)
                 
                 //팝오버로 보여준다
-                
                 alertController.popoverPresentationController?.sourceView = sender as! UIButton
                 present(alertController, animated: true, completion: nil)
                 break
@@ -249,7 +259,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
     
     //사용자가 제한한 사진의 개수
     func showLimittedAccessUI() {
-        let photoCount = PHAsset.fetchAssets(with: nil).count
+        _ = PHAsset.fetchAssets(with: nil).count
     }
     
     //권한 설정
@@ -292,8 +302,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
         {
         //10으로하면 12 아이폰에서 다시 깨지길래 12로 바꿔뒀어
         let width  = (diaryCollectionView.frame.width-12)/3
-    
-        return CGSize(width: width, height: width)
+            return CGSize(width: width, height: width)
         }
 
     
@@ -375,7 +384,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
             }
         }
         
-        //이건 뭐지 - 식물 정보 수정하고 save하고 돌아온 경우인가
+        //식물 정보 수정하고 save하고 돌아온 경우
         else{
             for i in 0...(userPlants.count-1) {
                 if(userPlants[i].name == myPlant!.name){
@@ -400,7 +409,6 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-  
         
         if let detailVC = segue.destination as? MyDiaryViewController,let cell = sender as? UICollectionViewCell,
            let indexPath =  diaryCollectionView.indexPath(for: cell) {
@@ -410,7 +418,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
         }
     
         
-        if segue.identifier == "pickImageSegue"{
+        if segue.identifier == "pickImageSegue" {
             if let detailVC = segue.destination as? WriteDiaryViewController{
                 detailVC.image = selectedImage!
                 detailVC.userplant = myPlant
@@ -420,7 +428,7 @@ class MyPlantViewController: UIViewController,UICollectionViewDelegate,UICollect
             }
         }
         
-        if segue.identifier == "editPlantSegue"{
+        if segue.identifier == "editPlantSegue" {
             if let detailVC = segue.destination as? EditUserPlantTableViewController{
                 
                 detailVC.editPlant = myPlant

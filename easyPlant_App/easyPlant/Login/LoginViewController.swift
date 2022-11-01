@@ -21,21 +21,36 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
     @IBOutlet weak var findBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var stackView: UIStackView!
-    var plantCollectionView: UserPlantCollectionViewController?
-    var homeView: HomeViewController?
+    
+    
+    var userPlantCollectionDelegate : userPlantCollectionDelegate?
+    var homeDelegate : HomeDelegate?
+    
+    fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if Auth.auth().currentUser != nil {
+            IDField.placeholder = "이미 로그인 된 상태입니다."
+            pwField.placeholder = "이미 로그인 된 상태입니다."
+        }
+        
+        updateUI()
+
+    }
+    
+    
+    func updateUI() {
         self.view.bringSubviewToFront(indicatorView)
-        indicatorView.isHidden = true
+        
         loginBtn.layer.cornerRadius = 15
+        
         IDField.borderStyle = .none
         let border = CALayer()
         border.frame = CGRect(x: 0, y: IDField.frame.size.height-10, width: IDField.layer.frame.width, height: 1)
-        //print(IDField.layer.frame.width)
-        IDField.layer.addSublayer((border))
         border.backgroundColor = UIColor.lightGray.cgColor
+        IDField.layer.addSublayer((border))
         
         pwField.borderStyle = .none
         let border2 = CALayer()
@@ -43,44 +58,49 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
         border2.backgroundColor = UIColor.lightGray.cgColor
         pwField.layer.addSublayer((border2))
         
-        if Auth.auth().currentUser != nil {
-            IDField.placeholder = "이미 로그인 된 상태입니다."
-            pwField.placeholder = "이미 로그인 된 상태입니다."
-        }
-
         findBtn.layer.cornerRadius = 15
         joinBtn.layer.cornerRadius = 15
         setupProviderLoginView()
+        
+        loginBtn.layer.cornerRadius = 10
+        
+        indicatorView.hidesWhenStopped = true
+        indicatorView.stopAnimating()
     }
     
-    fileprivate var currentNonce: String?
+    func setupProviderLoginView() {
+        let authorizationButton = ASAuthorizationAppleIDButton()
+        authorizationButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
+        self.stackView.addArrangedSubview(authorizationButton)
+      }
+    
+    
+    @available(iOS 13, *)
+    @objc func startSignInWithAppleFlow() {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
         
-         @available(iOS 13, *)
-        @objc func startSignInWithAppleFlow() {
-            let nonce = randomNonceString()
-            currentNonce = nonce
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            let request = appleIDProvider.createRequest()
-            request.requestedScopes = [.fullName, .email]
-            request.nonce = sha256(nonce)
-            
-            
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self
-            authorizationController.performRequests()
-        }
         
-        @available(iOS 13, *)
-        private func sha256(_ input: String) -> String {
-            let inputData = Data(input.utf8)
-            let hashedData = SHA256.hash(data: inputData)
-            let hashString = hashedData.compactMap {
-                return String(format: "%02x", $0)
-            }.joined()
-            
-            return hashString
-        }
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+        
+    @available(iOS 13, *)
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            return String(format: "%02x", $0)
+        }.joined()
+        
+        return hashString
+    }
     
     private func randomNonceString(length: Int = 32) -> String {
       precondition(length > 0)
@@ -114,11 +134,7 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
       return result
     }
     
-    func setupProviderLoginView() {
-        let authorizationButton = ASAuthorizationAppleIDButton()
-        authorizationButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
-        self.stackView.addArrangedSubview(authorizationButton)
-      }
+    
     
     @IBAction func loginBtnTapped(_ sender: Any) {
         if IDField.text! == "" {
@@ -130,22 +146,18 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
             showAlert(message: "비밀번호를 입력해주세요")
             return
         }
-        self.indicatorView.isHidden = false
         self.indicatorView.startAnimating()
         
         Auth.auth().signIn(withEmail: IDField.text!, password: pwField.text!) {
             (user, error) in
             if user != nil {
                 if ((Auth.auth().currentUser?.isEmailVerified == true)) {
-                    
-                    
                     deleteLocalData()
                     
                     self.loadUserInfoAndUpdateValue()
                     self.loadUserPlantAndDismiss()
                 } else {
                     self.indicatorView.stopAnimating()
-                    self.indicatorView.isHidden = true
                     self.showAlert(message: "이메일 인증을 완료해주세요")
                     do {
                         try Auth.auth().signOut()
@@ -159,7 +171,6 @@ class LoginViewController: UIViewController ,UITextViewDelegate {
                 self.showAlert(message: "아이디와 비밀번호를 다시 입력해주세요")
                 print("로그인 실패")
                 self.indicatorView.stopAnimating()
-                self.indicatorView.isHidden = true
             }
         }
     }
@@ -193,7 +204,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
 
-            //
+            
             let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                       idToken: idTokenString,
                                                       rawNonce: nonce)
@@ -205,7 +216,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 }
                 guard (authResult?.user) != nil else { return }
                 
-                self.indicatorView.isHidden = false
                 self.indicatorView.startAnimating()
                 
                 deleteLocalData()
@@ -243,7 +253,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
     
     
-    
+    //userPlant 정보 가져오기
     func loadUserPlantAndDismiss(){
         let jsonDecoder = JSONDecoder()
         
@@ -268,6 +278,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let infoRef = storageRef.child(filePath)
 
             // Download to the local filesystem
+        
             infoRef.write(toFile: archiveURL) { url, error in
               if let error = error {
                 print("download to local userPlants error : \(error)")
@@ -278,16 +289,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     let decoded = try jsonDecoder.decode([UserPlant].self, from: data! as Data)
                     userPlants = decoded
                     
-                    if let view = self.plantCollectionView {
-                        print("reload data!!!!!!@#!#@!$!$# \(userPlants)")
-                        view.userPlantCollectionView.reloadData()
-                    }
-                    if let view = self.homeView {
-                        view.plantListTableView.reloadData()
-                        view.calendar.reloadData()
-                    }
+                    
+                    // modal이라서 update가 안되기 때문에 delegate로 update
+                    self.homeDelegate?.reloadTableViewAndCalendar()
+                    self.userPlantCollectionDelegate?.reloadCollectionView()
+                    
                     self.indicatorView.stopAnimating()
-                    self.indicatorView.isHidden = true
                     self.dismiss(animated: true, completion: nil)
                 } catch {
                     print(error)
@@ -297,7 +304,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
     
-    
+    //user 정보 가져오기
     func loadUserInfoAndUpdateValue() {
         let jsonDecoder = JSONDecoder()
         
@@ -333,70 +340,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     let decoded = try jsonDecoder.decode(User.self, from: data! as Data)
                     myUser = decoded
                     
-                    if let view = self.homeView {
-                        view.levelLabel.text = "\(myUser.level.name)"
-                        view.levelLabel.textColor = UIColor.black
-                        view.levelImage.image = UIImage(named: myUser.level.icon)
-                        if myUser.level.name != levels[0].name {
-                            view.hapinessImage.isHidden = false
-                            if myUser.hapiness < 70 {
-                                view.hapinessImage.image = UIImage(named: "sadPlant")
-                            } else {
-                                view.hapinessImage.image = UIImage(named: "happyPlant")
-                            }
-                        } else {
-                            view.hapinessImage.isHidden = true
-                        }
-                        
-                        var ChartEntry : [ChartDataEntry] = []
-                        let value_fill = PieChartDataEntry(value: 0)
-                        let value_empty = PieChartDataEntry(value: 0)
-                        
-                        value_fill.value = Double(myUser.hapiness)
-                        value_fill.label = ""
-                        value_empty.value = 100 - value_fill.value
-                        value_empty.label = ""
-                        
-                        ChartEntry.append(value_fill)
-                        ChartEntry.append(value_empty)
-                        
-                        let chartDataSet = PieChartDataSet(entries: ChartEntry, label: nil)
-                        let chartData = PieChartData(dataSet: chartDataSet)
-                        
-                        var colors: [NSUIColor] = []
-                        var color = UIColor(red: CGFloat(189.0/255), green: CGFloat(236.0/255), blue: CGFloat(182.0/255), alpha: 1)
-                        colors.append(color)
-                        color = UIColor(red: CGFloat(189.0/255), green: CGFloat(236.0/255), blue: CGFloat(182.0/255), alpha: 0.3)
-                        colors.append(color)
-                        
-                        view.pieChart.highlightPerTapEnabled =  false
-                        chartDataSet.drawIconsEnabled = false
-                        view.pieChart.rotationEnabled = false
-                        chartDataSet.colors = colors
-                        chartDataSet.drawValuesEnabled = false
-                        chartDataSet.selectionShift = 8
-                        view.pieChart.transparentCircleRadiusPercent = 0
-                        view.pieChart.holeRadiusPercent = 50
-                        view.pieChart.legend.enabled = false
-                        view.pieChart.chartDescription?.enabled = true
-                        view.pieChart.drawHoleEnabled = false
-                        view.pieChart.drawCenterTextEnabled = true
-                        view.pieChart.centerText = "\(value_fill.value)%"
-                        
-                        let attributes: [NSAttributedString.Key: Any] = [
-                            .font: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize),
-                            .foregroundColor: UIColor.gray
-                        ]
-                        
-                        let attributedString = NSAttributedString(string: String(value_fill.value), attributes: attributes)
-                        
-                        view.pieChart.centerAttributedText = attributedString
-                        
-                        view.pieChart.minOffset = 0
- 
-                        view.pieChart.data = chartData
-                        view.pieChart.isHidden = false
-                    }
+                    // modal이라서 update가 안되기 때문에 delegate로 update
+                    self.homeDelegate?.reloadHome()
+                    
                 } catch {
                     print(error)
                 }

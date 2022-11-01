@@ -82,15 +82,8 @@ class MypageViewController: UIViewController,UINavigationControllerDelegate, UII
             cameraBackground.layer.frame.width/2
         cameraBackground.backgroundColor = .white
       
-        myInfo.layer.shadowOpacity = 0.2
-        myInfo.layer.shadowOffset = CGSize(width: 0, height: 10)
-        myInfo.layer.shadowRadius = 30
-        myInfo.layer.masksToBounds = false
-        
-        guide.layer.shadowOpacity = 0.2
-        guide.layer.shadowOffset = CGSize(width: 0, height: 10)
-        guide.layer.shadowRadius = 30
-        guide.layer.masksToBounds = false
+        setShadowView(view: myInfo, height: 10, shadowRadius: 30)
+        setShadowView(view: guide, height: 10, shadowRadius: 30)
         
         
         infoLabels[0].text = String(myUser.numPlants)

@@ -31,17 +31,17 @@ class CellTableViewCell: UITableViewCell {
         self.layer.borderColor = UIColor.white.cgColor
         self.layer.borderWidth = 1
         self.selectionStyle = UITableViewCell.SelectionStyle.none
-        //self.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
-        self.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
-        rightCellView.backgroundColor =  UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
+        //self.backgroundColor = .easyPlantPrimary
+        self.backgroundColor = .easyPlantPrimary
+        rightCellView.backgroundColor =  .easyPlantPrimary
         //rightCellView.layer.cornerRadius = 30
-        leftCellView.backgroundColor =  UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
+        leftCellView.backgroundColor =  .easyPlantPrimary
         //leftCellView.layer.cornerRadius = 30
      
         
-        rightButton.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
+        rightButton.backgroundColor = .easyPlantPrimary
         
-        leftButton.backgroundColor = UIColor(cgColor: CGColor(red: 174/255, green: 213/255, blue: 129/255, alpha: 1))
+        leftButton.backgroundColor = .easyPlantPrimary
 
 
         leftImageButton.contentMode = .scaleAspectFit

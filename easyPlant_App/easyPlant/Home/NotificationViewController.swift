@@ -22,12 +22,11 @@ class NotificationViewController: UITableViewController {
         colorPickerView.addTarget(self, action: #selector(colorWellChanged(_:)), for: .valueChanged)
     
         colorPickerView.tintColor = myPlant?.color.uiColor
-        datePicker.addTarget(self, action: #selector(changed), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
         
     }
     
-    @objc func changed () {
-        
+    @objc func datePickerChanged () {
         for i in 0...(userPlants.count-1) {
             if(userPlants[i].name == myPlant?.name){
                 userPlants[i].alarmTime = datePicker.date

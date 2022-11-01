@@ -33,15 +33,19 @@ class UserPlantCollectionViewController: UIViewController,UICollectionViewDelega
         loadUserPlant()
         userPlantCollectionView.reloadData()
 
-        var imagetmp : UIImageView = UIImageView()
+        let imagetmp : UIImageView = UIImageView()
         let image = UIImage(named: "profileDefault2")
         imagetmp.image = image
+        
         //만약 로그인된 상태고 전에 한번 수정한적 있다면
         if Auth.auth().currentUser != nil && myUser.isChangeProfile == 1{
             downloadProfileImage(imgview: imagetmp)
         }
         myProfile.setImage(imagetmp.image, for: .normal)
         myProfile.layer.cornerRadius = myProfile.frame.size.width/2
+        
+        userPlantCollectionView.layer.cornerRadius = 20
+        
 
     }
     
@@ -60,14 +64,19 @@ class UserPlantCollectionViewController: UIViewController,UICollectionViewDelega
 
         let userplant = userPlants[indexPath.row]
         cell.update(info: userplant)
-
+       
+       
+       cell.layer.zPosition = 101
+       setShadowView(view: cell, height: 3, shadowRadius: 5)
+//       setShadowView(view: cell)
+       
        return cell
    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
         {
-        let width  = (userPlantCollectionView.frame.width-10)/2
-        return CGSize(width: width, height: width*1.3)
+        let width  = (userPlantCollectionView.frame.width-16)/2
+            return CGSize(width: width, height: width + 30 + 8 + 8)
         }
 
 
@@ -148,7 +157,7 @@ class UserPlantCollectionViewController: UIViewController,UICollectionViewDelega
         
         if segue.identifier == "toLoginPage" {
             if let nav = segue.destination as? CustomNavigationController, let detailVC = nav.topViewController as? LoginViewController{
-                detailVC.plantCollectionView = self
+                detailVC.userPlantCollectionDelegate = self
             }
         }
         
@@ -156,5 +165,17 @@ class UserPlantCollectionViewController: UIViewController,UICollectionViewDelega
     
 }
 
+protocol userPlantCollectionDelegate {
+    func reloadCollectionView()
+}
+
+extension UserPlantCollectionViewController : userPlantCollectionDelegate {
+    func reloadCollectionView() {
+        userPlantCollectionView.reloadData()
+        print("=== update userplant ==== ")
+        print(userPlants)
+        
+    }
+}
 
 

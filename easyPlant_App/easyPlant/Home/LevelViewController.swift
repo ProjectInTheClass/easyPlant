@@ -45,10 +45,7 @@ class LevelViewController: UIViewController {
         myLevelView.layer.cornerRadius = 30
         
         myStack.layer.cornerRadius = 30
-        myStack.layer.shadowOpacity = 0.2
-        myStack.layer.shadowOffset = CGSize(width: 0, height: 10)
-        myStack.layer.shadowRadius = 30
-        myStack.layer.masksToBounds = false
+        setShadowView(view: myStack, height: 10, shadowRadius: 30)
 
         levelStack.layer.cornerRadius = 15
         levelStack.backgroundColor = UIColor.clear
